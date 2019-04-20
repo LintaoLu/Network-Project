@@ -35,14 +35,14 @@ public class UndirectedGraph
     }
 
     //Add a new router.
-    public void addNode(int from, int to, int distance)
+    public void addNode(int from, int to, double distanceToFrom, double distanceToTo)
     {
         //'form' is the number of new router. If it less or equal to a router
         //that is already in graph, this is not a new router, just return.
         if(from <= graph.length-1) return;
 
-        Edge edgeFrom = new Edge(from, to, distance);
-        Edge edgeTo = new Edge(to, from, distance);
+        Edge edgeFrom = new Edge(from, to, distanceToTo);
+        Edge edgeTo = new Edge(to, from, distanceToFrom);
         Bag<Edge>[] newGraph = (Bag<Edge>[]) new Bag[from+ 1];
         for (int i = 1; i < graph.length; i++)
         {

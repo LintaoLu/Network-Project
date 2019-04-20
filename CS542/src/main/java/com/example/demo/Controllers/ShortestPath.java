@@ -1,6 +1,5 @@
 package com.example.demo.Controllers;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
 
@@ -53,7 +52,7 @@ public class ShortestPath
         return sb.toString();
     }
 
-    //Lazy implementation
+    //Lazy implementation for shortest path
     private void findShortestPath(int from)
     {
         IndexMinPQ indexMinPQ = new IndexMinPQ(graph.length+1);

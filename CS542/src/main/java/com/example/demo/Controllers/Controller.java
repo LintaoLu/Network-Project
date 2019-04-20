@@ -1,26 +1,31 @@
 package com.example.demo.Controllers;
 
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-
+import java.util.HashSet;
 
 @RestController
 public class Controller {
+
+    private UndirectedGraph undirectedGraph;
+    private HashSet<Integer> set;
+
+    public Controller()
+    {
+        undirectedGraph = new UndirectedGraph("file.txt");
+        set = new HashSet<>();
+        for(int i = 1; i < undirectedGraph.getGraph().length; i++) set.add(i);
+    }
 
     @CrossOrigin
     @PostMapping("/file")
     public ArrayList getHello(@RequestParam("file") String file) {
 
         writeBase64File(file);
-        UndirectedGraph undirectedGraph = new UndirectedGraph("file.txt");
         FindAllPath findAllPath = new FindAllPath(undirectedGraph.getGraph());
         findAllPath.findAllPath(1, 5);
         System.out.println(findAllPath.printPath());
@@ -40,13 +45,15 @@ public class Controller {
     }
 
     @CrossOrigin
-    @GetMapping("/allPaths")
-    public String getAllPaths(){
-        UndirectedGraph undirectedGraph = new UndirectedGraph("file.txt");
+    @PostMapping("/allPaths")
+    public String getAllPaths(@RequestParam("from") String from, @RequestParam("to") String to){
+
+        int graphSize = undirectedGraph.getGraph().length;
+        if(!set.contains(Integer.valueOf(from)) || !set.contains(Integer.valueOf(to)))
+            return "Out of boundary!";
         FindAllPath findAllPath = new FindAllPath(undirectedGraph.getGraph());
-        //findAllPath.findAllPath(1, 5);
-        //System.out.println(findAllPath.printPath());
-        ArrayList<ArrayList<Integer>> paths = findAllPath.findAllPath(1, 5);
+        ArrayList<ArrayList<Integer>> paths =
+                findAllPath.findAllPath(Integer.valueOf(from), Integer.valueOf(to));
         StringBuilder sb = new StringBuilder();
         int pathNumber = 1;
         for (ArrayList<Integer> singlePath : paths)
@@ -60,27 +67,60 @@ public class Controller {
             sb.append("\n");
             pathNumber++;
         }
+        System.out.println(sb.toString());
         return sb.toString();
     }
 
-    @GetMapping("/shortestpathcost")
+    @PostMapping("/shortestpathcost")
     @CrossOrigin
-    public double getShortestPathCost(){
-
-        UndirectedGraph undirectedGraph = new UndirectedGraph("file.txt");
+    public double getShortestPathCost(@RequestParam("from") String from, @RequestParam("to") String to){
+        int graphSize = undirectedGraph.getGraph().length;
+        if(!set.contains(Integer.valueOf(from)) || !set.contains(Integer.valueOf(to)))
+            return Double.POSITIVE_INFINITY;
         ShortestPath shortestPath = new ShortestPath(undirectedGraph.getGraph());
-        shortestPath.findShortestPath(1, 5);
-        return shortestPath.getShortestPath(5);
+        shortestPath.findShortestPath(Integer.valueOf(from), Integer.valueOf(to));
+        return shortestPath.getShortestPath(Integer.valueOf(to));
     }
 
-    @GetMapping("/shortestPath")
+    @PostMapping("/shortestPath")
     @CrossOrigin
-    public String getShortestpath(){
-        UndirectedGraph undirectedGraph = new UndirectedGraph("file.txt");
+    public String getShortestpath(@RequestParam("from") String from, @RequestParam("to") String to){
         ShortestPath shortestPath = new ShortestPath(undirectedGraph.getGraph());
-        shortestPath.findShortestPath(1, 5);
-        System.out.println(shortestPath.tracePath(5));
+        shortestPath.findShortestPath(Integer.valueOf(from), Integer.valueOf(to));
+        System.out.println(shortestPath.tracePath(Integer.valueOf(to)));
 
-        return shortestPath.tracePath(5);
+        return shortestPath.tracePath(Integer.valueOf(to));
+    }
+
+    @CrossOrigin
+    @PostMapping("deleteNode")
+    private String deleteNode(@RequestParam("nodeNumber") String nodeNumber) {
+        if(!set.contains(Integer.valueOf(nodeNumber))) return "This node doesn't exist!";
+        undirectedGraph.deleteNode(Integer.valueOf(nodeNumber));
+        set.remove(Integer.valueOf(nodeNumber));
+        return "success";
+    }
+
+    @GetMapping("/reset")
+    @CrossOrigin
+    public void reset()
+    {
+        undirectedGraph = new UndirectedGraph("file.txt");
+        set = new HashSet<>();
+        for(int i = 1; i < undirectedGraph.getGraph().length; i++) set.add(i);
+    }
+
+    @PostMapping("addnode")
+    @CrossOrigin
+    private String addNode(@RequestParam("from") String from,@RequestParam("to") String to,
+                         @RequestParam("costTo") String costTo, @RequestParam("costFrom") String costFrom ){
+        if (set.contains(Integer.valueOf(from))) return "The Node already exists";
+        if(!set.contains(Integer.valueOf(to))) return "The Node has to already exist";
+        undirectedGraph.addNode(Integer.valueOf(from), Integer.valueOf(to),
+                Double.valueOf(costFrom), Double.valueOf(costTo));
+        set.add(Integer.valueOf(from));
+        set.add(Integer.valueOf(to));
+        System.out.println(Integer.valueOf(from) + " " + Integer.valueOf(to));
+        return "successful";
     }
 }

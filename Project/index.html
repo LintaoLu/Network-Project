@@ -44,9 +44,50 @@
                         <label for="solution">Solution</label>
                         <textarea class="form-control" id="solution" rows="7" disabled></textarea>
                     </div>
-                    <button class="btn btn-primary" onclick="findAllPaths();">Find All Paths</button>
-                    <button class="btn btn-primary" onclick="findShortestPath();">Find Shortest Path</button>
-                    <button class="btn btn-primary" onclick="findShoetestPathCost();">Find Shortest Path Cost</button>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" onclick="findAllPaths();">Find All Paths</button>
+                        </span>
+                        <input id="allPathsFrom" type="text" class="form-control" placeholder="From">
+                        <input id="allPathsTo" type="text" class="form-control" placeholder="To">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" onclick="findShortestPath();">Find Shortest Path</button>
+                        </span>
+                        <input id="shortestPathFrom" type="text" class="form-control" placeholder="From">
+                        <input id="shortestPathTo" type="text" class="form-control" placeholder="To">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" onclick="findShoetestPathCost();">Find Shortest Path Cost</button>
+                        </span>
+                        <input id="shortestPathCostFrom" type="text" class="form-control" placeholder="From">
+                        <input id="shortestPathCostTo" type="text" class="form-control" placeholder="To">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" onclick="deleteNode()">Delete Node</button>
+                        </span>
+                        <input id="deleteNodeNumber" type="text" class="form-control" placeholder="Node Number">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" onclick="addNode()">Add Node</button>
+                        </span>
+                        <input id="from" type="text" class="form-control" placeholder="Node Number from">
+						<input id="to" type="text" class="form-control" placeholder="Node Number to">
+						<input id="costFrom" type="text" class="form-control" placeholder="Cost From">
+						<input id="costTo" type="text" class="form-control" placeholder="Cost To">
+                    </div>
+					<div>
+						<button class="btn btn-success" onclick="reset()">Reset</button>
+					</div>
+                    <!-- <div class="btn-group-vertical">
+                            <button class="btn btn-primary" onclick="findAllPaths();">Find All Paths</button>
+                            <button class="btn btn-primary" onclick="findShortestPath();">Find Shortest Path</button>
+                            <button class="btn btn-primary" onclick="findShoetestPathCost();">Find Shortest Path Cost</button>
+                    </div> -->
                 </div>
             </div>
         </div>
