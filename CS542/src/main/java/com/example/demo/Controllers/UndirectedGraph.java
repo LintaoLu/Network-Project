@@ -106,7 +106,7 @@ public class UndirectedGraph
         }
         for(int i = 1; i < graph.length; i++)
         {
-            if(i != v)
+            if(i != v && !graph[i].isEmpty())
             {
                 if(hashMap.containsKey(i)) sb.append("Router " + i + "\t\t" + hashMap.get(i)+"\n");
                 else sb.append("Router " + i + "\t\tInfinity\n");
