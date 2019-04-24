@@ -24,7 +24,7 @@
                         </div>
                     </a>
                 </ul>
-            </div> 
+            </div>
             <div class="col-sm-10">
                 <div class="row">
                     <div class="col-sm-10">
@@ -76,10 +76,17 @@
                             <button class="btn btn-primary" onclick="addNode()">Add Node</button>
                         </span>
                         <input id="from" type="text" class="form-control" placeholder="Node Number from">
-						<input id="to" type="text" class="form-control" placeholder="Node Number to">
-						<input id="costFrom" type="text" class="form-control" placeholder="Cost From">
-						<input id="costTo" type="text" class="form-control" placeholder="Cost To">
+              						<input id="to" type="text" class="form-control" placeholder="Node Number to">
+              						<input id="costFrom" type="text" class="form-control" placeholder="Cost From">
+              						<input id="costTo" type="text" class="form-control" placeholder="Cost To">
                     </div>
+                    <div class="input-group">
+        							<span class="input-group-btn">
+        								<button onclick="findallconnectedRouters()" class="btn btn-primary">Find all connected Routers</button>
+        							</span>
+        							<input id="routerNumber" required="required" type="text" class="form-control" placeholder="Router Number">
+        						</div>
+
 					<div>
 						<button class="btn btn-success" onclick="reset()">Reset</button>
 					</div>
@@ -91,5 +98,5 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 </body>

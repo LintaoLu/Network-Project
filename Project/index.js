@@ -21,10 +21,10 @@ function sendFile(file)
     Http.onreadystatechange = function () {
         console.log(Http.responseText);
     }
-        
+
 }
 
-function getBase64(file) 
+function getBase64(file)
 {
     var reader = new FileReader();
     reader.readAsDataURL(file);
@@ -48,7 +48,7 @@ function getBase64(file)
 	var data = new FormData();
 	data.append("from", from);
 	data.append("to", to);
-	
+
 	document.getElementById("solution").innerHTML = "";
     const Http = new XMLHttpRequest();
     const url = 'http://localhost:8080/allPaths';
@@ -85,23 +85,23 @@ function getBase64(file)
     Http.send(data);
     Http.onload = function () {
         document.getElementById("solution").append(Http.response);
-    }	
+    }
  }
- 
- 
+
+
  function findShoetestPathCost(){
-	 
+
 	 var from = document.getElementById("shortestPathCostFrom").value;
 	 var to = document.getElementById("shortestPathCostTo").value;
 
 	var data = new FormData();
 	data.append("from", from);
 	data.append("to", to);
-	
+
 	 document.getElementById("solution").innerHTML = "";
 	 const Http = new XMLHttpRequest();
 	  const url = 'http://localhost:8080/shortestpathcost';
-	  
+
 	  Http.open("POST",url);
 	  Http.setRequestHeader("Access-Control-Allow-Origin", "*");
 	  Http.send(data);
@@ -109,17 +109,17 @@ function getBase64(file)
 		  document.getElementById("solution").append(Http.response);
 	  }
  }
- 
+
  function deleteNode(){
 	var nodeNumber = document.getElementById("deleteNodeNumber").value;
-	
+
 	var data = new FormData();
 	data.append("nodeNumber", nodeNumber);
-	
+
 	document.getElementById("solution").innerHTML = "";
 	const Http = new XMLHttpRequest();
 	const url = 'http://localhost:8080/deleteNode';
-	
+
 	Http.open("POST",url);
 	  Http.setRequestHeader("Access-Control-Allow-Origin", "*");
 	  Http.send(data);
@@ -127,21 +127,40 @@ function getBase64(file)
 		  document.getElementById("solution").append(Http.response);
 	  }
  }
- 
+
  function reset(){
 	document.getElementById("solution").innerHTML = "";
 
 	const Http = new XMLHttpRequest();
 	const url = 'http://localhost:8080/reset';
-	
+
 	Http.open("GET",url);
 	  Http.setRequestHeader("Access-Control-Allow-Origin", "*");
 	  Http.send();
 	  Http.onload = function () {
 		  document.getElementById("solution").append("reset successful");
 	  }
- } 
- 
+ }
+
+ function findallconnectedRouters(){
+   document.getElementById("solution").innerHTML = "";
+
+	console.log("1")
+	const Http = new XMLHttpRequest();
+	const url = 'http://localhost:8080/findallconnectedrouter';
+
+	var routerNumber = document.getElementById('routerNumber').value;
+	var data = new FormData();
+	data.append('routerNumber', routerNumber);
+
+	Http.open("POST", url);
+	Http.setRequestHeader("Access-Control-Allow-Origin", "*");
+	  Http.send(data);
+	  Http.onload = function () {
+		  document.getElementById("solution").append(Http.response);
+	  }
+ }
+
  function addNode(){
 	document.getElementById("solution").innerHTML = "";
 
@@ -152,14 +171,14 @@ function getBase64(file)
 	var from = document.getElementById("from").value;
 	var costTo = document.getElementById("costTo").value;
 	var costFrom = document.getElementById("costFrom").value;
-	
+
 	var data = new FormData();
 
 	data.append("to", to)
 	data.append("from", from)
 	data.append("costTo", costTo)
 	data.append("costFrom", costFrom)
-	
+
 	Http.open("POST",url);
 	  Http.setRequestHeader("Access-Control-Allow-Origin", "*");
 	  Http.send(data);
