@@ -48,6 +48,13 @@ public class Controller {
     @PostMapping("/allPaths")
     public String getAllPaths(@RequestParam("from") String from, @RequestParam("to") String to){
 
+        try{
+            Integer.valueOf(from);
+            Integer.valueOf(to);
+        }
+        catch(Exception e){
+            return "something went wrong";
+        }
         int graphSize = undirectedGraph.getGraph().length;
         if(!set.contains(Integer.valueOf(from)) || !set.contains(Integer.valueOf(to)))
             return "Out of boundary!";
@@ -74,6 +81,13 @@ public class Controller {
     @PostMapping("/shortestpathcost")
     @CrossOrigin
     public double getShortestPathCost(@RequestParam("from") String from, @RequestParam("to") String to){
+        try{
+            Integer.valueOf(from);
+            Integer.valueOf(to);
+        }
+        catch(Exception e){
+            return Double.POSITIVE_INFINITY;
+        }
         int graphSize = undirectedGraph.getGraph().length;
         if(!set.contains(Integer.valueOf(from)) || !set.contains(Integer.valueOf(to)))
             return Double.POSITIVE_INFINITY;
@@ -85,6 +99,15 @@ public class Controller {
     @PostMapping("/shortestPath")
     @CrossOrigin
     public String getShortestpath(@RequestParam("from") String from, @RequestParam("to") String to){
+        try{
+            Integer.valueOf(from);
+            Integer.valueOf(to);
+        }
+        catch(Exception e){
+            return "something went wrong";
+        }
+        if(!set.contains(Integer.valueOf(from)) || !set.contains(Integer.valueOf(to)))
+            return "Out of boundary!";
         ShortestPath shortestPath = new ShortestPath(undirectedGraph.getGraph());
         shortestPath.findShortestPath(Integer.valueOf(from), Integer.valueOf(to));
         System.out.println(shortestPath.tracePath(Integer.valueOf(to)));
@@ -95,6 +118,12 @@ public class Controller {
     @CrossOrigin
     @PostMapping("deleteNode")
     private String deleteNode(@RequestParam("nodeNumber") String nodeNumber) {
+        try{
+            Integer.valueOf(nodeNumber);
+        }
+        catch(Exception e){
+            return "something went wrong";
+        }
         if(!set.contains(Integer.valueOf(nodeNumber))) return "This node doesn't exist!";
         undirectedGraph.deleteNode(Integer.valueOf(nodeNumber));
         set.remove(Integer.valueOf(nodeNumber));
@@ -110,10 +139,19 @@ public class Controller {
         for(int i = 1; i < undirectedGraph.getGraph().length; i++) set.add(i);
     }
 
-    @PostMapping("addnode")
+    @PostMapping("/addnode")
     @CrossOrigin
     private String addNode(@RequestParam("from") String from,@RequestParam("to") String to,
                          @RequestParam("costTo") String costTo, @RequestParam("costFrom") String costFrom ){
+        try{
+            Integer.valueOf(to);
+            Integer.valueOf(from);
+            Double.valueOf(costFrom);
+            Double.valueOf(costTo);
+        }
+        catch(Exception e){
+            return "something went wrong";
+        }
         if (set.contains(Integer.valueOf(from))) return "The Node already exists";
         if(!set.contains(Integer.valueOf(to))) return "The Node has to already exist";
         undirectedGraph.addNode(Integer.valueOf(from), Integer.valueOf(to),
@@ -122,5 +160,19 @@ public class Controller {
         set.add(Integer.valueOf(to));
         System.out.println(Integer.valueOf(from) + " " + Integer.valueOf(to));
         return "successful";
+    }
+
+    @PostMapping("/findallconnectedrouter")
+    @CrossOrigin
+    private String findallconnectedrouter(@RequestParam("routerNumber") String routerNumber){
+        try{
+            Integer.valueOf(routerNumber);
+        }
+        catch(Exception e){
+            return "something went wrong";
+        }
+        if(!set.contains(Integer.valueOf(routerNumber))) return "No such router";
+        String answer = undirectedGraph.printAllConnections(Integer.valueOf(routerNumber));
+        return answer;
     }
 }

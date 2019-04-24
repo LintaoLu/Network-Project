@@ -1,5 +1,7 @@
 package com.example.demo.Controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class UndirectedGraph
@@ -90,11 +92,35 @@ public class UndirectedGraph
 
     public Bag<Edge>[] getGraph() { return graph; }
 
+    public String printAllConnections(int v)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Router " + v + "\t\t-\n");
+        HashMap<Integer, Double> hashMap = new HashMap<>();
+
+        Iterator<Edge> iterator = graph[v].iterator();
+        while(iterator.hasNext())
+        {
+            Edge e = iterator.next();
+            hashMap.put(e.either(v), e.getDistance());
+        }
+        for(int i = 1; i < graph.length; i++)
+        {
+            if(i != v)
+            {
+                if(hashMap.containsKey(i)) sb.append("Router " + i + "\t\t" + hashMap.get(i)+"\n");
+                else sb.append("Router " + i + "\t\tInfinity\n");
+            }
+        }
+        return sb.toString();
+    }
+
     public static void main(String[] args)
     {
         UndirectedGraph undirectedGraph = new UndirectedGraph("square.txt");
-        undirectedGraph.deleteNode(2);
-        undirectedGraph.printGraph();
+        //undirectedGraph.deleteNode(2);
+        //undirectedGraph.printGraph();
+        System.out.println(undirectedGraph.printAllConnections(4));
     }
 }
 
