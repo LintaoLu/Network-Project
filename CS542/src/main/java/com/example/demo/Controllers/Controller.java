@@ -2,6 +2,8 @@ package com.example.demo.Controllers;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.web.bind.annotation.*;
+
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -143,6 +145,7 @@ public class Controller {
     @CrossOrigin
     private String addNode(@RequestParam("from") String from,@RequestParam("to") String to,
                          @RequestParam("costTo") String costTo, @RequestParam("costFrom") String costFrom ){
+        System.out.println(from + " " + costFrom + " " + to + " " + costTo);
         try{
             Integer.valueOf(to);
             Integer.valueOf(from);
@@ -152,13 +155,12 @@ public class Controller {
         catch(Exception e){
             return "something went wrong";
         }
-        if (set.contains(Integer.valueOf(from))) return "The Node already exists";
-        if(!set.contains(Integer.valueOf(to))) return "The Node has to already exist";
+        if(set.contains(Integer.valueOf(from))) return "From has already exists";
+        if(!set.contains(Integer.valueOf(to))) return "To not exist";
         undirectedGraph.addNode(Integer.valueOf(from), Integer.valueOf(to),
                 Double.valueOf(costFrom), Double.valueOf(costTo));
         set.add(Integer.valueOf(from));
         set.add(Integer.valueOf(to));
-        System.out.println(Integer.valueOf(from) + " " + Integer.valueOf(to));
         return "successful";
     }
 

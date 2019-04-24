@@ -51,8 +51,12 @@ public class UndirectedGraph
             newGraph[i] = graph[i];
         }
         for(int i = graph.length; i < from + 1; i++) newGraph[i] = new Bag<>();
-        newGraph[from].add(edgeFrom);
-        newGraph[to].add(edgeTo);
+        System.out.println(edgeFrom);
+        System.out.println(edgeTo);
+        //newGraph[from].add(edgeFrom);
+        newGraph[from].add(edgeTo);
+        newGraph[to].add(edgeFrom);
+        //newGraph[to].add(edgeTo);
         graph = newGraph;
     }
 
