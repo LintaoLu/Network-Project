@@ -44,6 +44,7 @@ public class ShortestPath
             stack.push(to);
             to = edgeTo[to];
         }
+        sb.append("Shortest path:\t");
         while(!stack.empty())
         {
             sb.append(stack.pop() + " -> ");

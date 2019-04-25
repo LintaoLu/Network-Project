@@ -1,6 +1,5 @@
 package com.example.demo.Controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -39,10 +38,6 @@ public class UndirectedGraph
     //Add a new router.
     public void addNode(int from, int to, double distanceToFrom, double distanceToTo)
     {
-        //'form' is the number of new router. If it less or equal to a router
-        //that is already in graph, this is not a new router, just return.
-        if(from <= graph.length-1) return;
-
         Edge edgeFrom = new Edge(from, to, distanceToTo);
         Edge edgeTo = new Edge(to, from, distanceToFrom);
         Bag<Edge>[] newGraph = (Bag<Edge>[]) new Bag[from+ 1];
@@ -51,12 +46,8 @@ public class UndirectedGraph
             newGraph[i] = graph[i];
         }
         for(int i = graph.length; i < from + 1; i++) newGraph[i] = new Bag<>();
-        System.out.println(edgeFrom);
-        System.out.println(edgeTo);
-        //newGraph[from].add(edgeFrom);
-        newGraph[from].add(edgeTo);
-        newGraph[to].add(edgeFrom);
-        //newGraph[to].add(edgeTo);
+        newGraph[from].add(edgeFrom);
+        newGraph[to].add(edgeTo);
         graph = newGraph;
     }
 
@@ -117,6 +108,27 @@ public class UndirectedGraph
             }
         }
         return sb.toString();
+    }
+
+    public boolean hasConnection(int from, int to)
+    {
+        Iterator<Edge> iterator = graph[from].iterator();
+        while(iterator.hasNext())
+        {
+            Edge e = iterator.next();
+            if(e.either(from) == to) return true;
+        }
+        return false;
+    }
+
+    public void changeTwoNodes(int from, int to, double distance)
+    {
+        Iterator<Edge> iterator = graph[from].iterator();
+        while(iterator.hasNext())
+        {
+            Edge e = iterator.next();
+            if(e.either(from) == to) e.setDistance(distance);
+        }
     }
 
     public static void main(String[] args)

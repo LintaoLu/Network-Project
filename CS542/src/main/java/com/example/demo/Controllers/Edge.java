@@ -28,6 +28,8 @@ class Edge implements Comparable<Edge>
 
     public double getDistance() { return distance; }
 
+    public void setDistance(double distance) { this.distance = distance; }
+
     @Override
     public int compareTo(Edge e)
     {
