@@ -15,17 +15,13 @@ public class ReadMatrix
 
     public void readFile(String filename) throws IOException
     {
-        //InputStream stream = ClassLoader.getSystemResourceAsStream(filename);
         File file = new File(filename);
         BufferedReader buffer = new BufferedReader(new FileReader(file));
 
         String line;
         int row = 0;
 
-        line = buffer.readLine();
-        String[] vals = line.trim().split("\\s+");
-        size = vals.length;
-        matrix = new double[size][size];
+        String[] vals;
 
         while ((line = buffer.readLine()) != null)
         {
@@ -36,11 +32,11 @@ public class ReadMatrix
                 matrix = new double[size][size];
             }
 
-            for (int col = 1; col < size+1; col++)
+            for (int col = 0; col < size; col++)
             {
                 double number = Double.parseDouble(vals[col]);
                 if(number < 0) number = Double.POSITIVE_INFINITY;
-                matrix[row][col-1] = number;
+                matrix[row][col] = number;
             }
 
             row++;
@@ -72,7 +68,7 @@ public class ReadMatrix
 
     public static void main(String[] args)
     {
-        ReadMatrix square = new ReadMatrix("/Users/oje/Desktop/square.txt");
+        ReadMatrix square = new ReadMatrix("C:\\Users\\amdin\\Downloads\\CS542\\CS542\\src\\main\\java\\com\\example\\demo\\Controllers\\square.txt");
         square.printTable();
     }
 }
